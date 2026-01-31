@@ -40,6 +40,7 @@ export async function generateDailyBlogContent() {
     AŞIRI ÖNEMLİ FORMAT KURALLARI (Harfiyen uyulmalı):
     1.  **JSON Response:** Yanıtın SADECE geçerli bir JSON objesi olmalı. Markdown kod bloğu kullanma.
     2.  **HTML Content:** 'content' alanı, tarayıcıda render edilecek **SAF HTML** kodu içermelidir.
+    3.  **Gizlilik:** Yazının yapay zeka tarafından yazıldığını ASLA belli etme. "Editörlerimiz", "Yapay Zeka" gibi ifadeler kullanma. Sanki gerçek bir moda editörü yazmış gibi davran.
         -   Metni MUTLAKA paragraf <p> etiketleri içine al. (En az 4-5 paragraf)
         -   Bölümleri ayırmak için <h2> kullan.
         -   Alt başlıklar için <h3> kullan.
@@ -84,6 +85,15 @@ export async function generateDailyBlogContent() {
         if (jsonMatch) rawText = jsonMatch[0];
 
         const aiPost = JSON.parse(rawText);
+
+        // FALLBACK: If AI returned plain text (no HTML tags), force wrap in paragraphs
+        if (aiPost.content && !aiPost.content.includes('<p>') && !aiPost.content.includes('<h2>')) {
+            aiPost.content = aiPost.content
+                .split('\n')
+                .filter(line => line.trim() !== '')
+                .map(line => `<p>${line.trim()}</p>`)
+                .join('');
+        }
 
         // 3. Generate Image using Pollinations AI
         const imagePrompt = encodeURIComponent(`${aiPost.title}, 4k, photorealistic, cinematic lighting, high quality, beauty magazine style`);

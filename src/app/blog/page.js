@@ -86,13 +86,24 @@ export default async function BlogPage() {
                         </div>
 
                         {/* Enhanced Typography & Colors */}
-                        <div className="blog-content prose prose-xl prose-green mx-auto text-gray-600 
-                            [&>h3]:text-3xl [&>h3]:font-serif [&>h3]:text-primary [&>h3]:mt-12 [&>h3]:mb-6 
-                            [&>p]:leading-loose [&>p]:text-lg [&>p]:mb-6
-                            [&>ul]:my-8 [&>ul]:space-y-4 
-                            [&>ul>li]:pl-2 [&>ul>li]:marker:text-primary [&>ul>li]:marker:text-xl
-                            [&>strong]:text-green-800 [&>strong]:font-bold
-                            selection:bg-green-100 selection:text-green-900">
+                        <div className="blog-content prose prose-lg md:prose-xl prose-stone mx-auto text-gray-700
+                            prose-headings:font-serif prose-headings:font-bold prose-headings:text-green-900
+                            prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:leading-tight
+                            prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:text-primary prose-h3:mt-10 prose-h3:mb-4
+                            
+                            prose-p:text-lg md:prose-p:text-xl prose-p:leading-relaxed prose-p:text-gray-600 prose-p:mb-6
+                            
+                            prose-strong:text-green-800 prose-strong:font-black prose-strong:bg-green-50 prose-strong:px-1 prose-strong:rounded
+                            
+                            prose-ul:my-8 prose-ul:list-none prose-ul:pl-0 prose-ul:space-y-4
+                            [&>ul>li]:relative [&>ul>li]:pl-7 [&>ul>li]:text-lg md:[&>ul>li]:text-xl before:[&>ul>li]:content-['✓'] before:[&>ul>li]:absolute before:[&>ul>li]:left-0 before:[&>ul>li]:text-primary before:[&>ul>li]:font-bold
+                            
+                            prose-ol:my-8 prose-ol:space-y-4 prose-ol:pl-6
+                            [&>ol>li]:text-lg md:[&>ol>li]:text-xl marker:[&>ol>li]:text-primary marker:[&>ol>li]:font-bold
+                            
+                            prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-gradient-to-r prose-blockquote:from-green-50 prose-blockquote:to-transparent prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-xl prose-blockquote:not-italic prose-blockquote:text-green-900 prose-blockquote:shadow-sm
+                            
+                            selection:bg-primary/20 selection:text-green-900">
                             <div dangerouslySetInnerHTML={{ __html: aiPost.content }} />
                         </div>
 

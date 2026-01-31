@@ -42,54 +42,71 @@ export default async function BlogPage() {
     }
 
     return (
-        <div className="pt-10 min-h-screen bg-gray-50 pb-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-                <div className="text-center max-w-2xl mx-auto mb-12">
-                    <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest rounded-full mb-4">
+        <div className="min-h-screen bg-gray-50 pb-20">
+            {/* Header Section with Gradient */}
+            <div className="relative bg-gradient-to-r from-green-800 to-primary py-24 sm:py-32 overflow-hidden">
+                <div className="absolute inset-0 opacity-20">
+                    <img src="https://www.transparenttextures.com/patterns/cubes.png" alt="Pattern" className="w-full h-full object-cover" />
+                </div>
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+                    <span className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-bold text-xs uppercase tracking-widest rounded-full mb-6">
                         Güzellik & Yaşam Bloğu
                     </span>
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-6 tracking-tight">Günlük İlham Köşesi</h1>
-                    <p className="text-gray-600 text-lg">Sizin için her gün yepyeni, özgün ve ilham verici içerikler hazırlıyoruz.</p>
+                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-6 tracking-tight shadow-sm">Günlük İlham Köşesi</h1>
+                    <p className="text-green-100 text-xl font-light max-w-2xl mx-auto">Sizin için her gün yepyeni, özgün ve ilham verici içerikler hazırlıyoruz.</p>
                 </div>
+            </div>
 
-                <article className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-                    <div className="relative h-64 sm:h-96 overflow-hidden group">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-10">
+                <article className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+                    <div className="relative h-72 sm:h-[500px] overflow-hidden group">
                         <img
                             src={getImage(aiPost.image_keyword, aiPost.generated_image_url)}
                             alt={aiPost.title}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                         />
-                    </div>
-
-                    <div className="p-8 sm:p-12">
-                        <div className="mb-10 text-center border-b border-gray-100 pb-8">
-                            <span className="inline-block px-4 py-1.5 bg-green-50 text-green-700 rounded-full text-sm font-bold uppercase tracking-wide mb-4">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 text-white">
+                            <span className="inline-block px-3 py-1 bg-primary text-white rounded-md text-sm font-bold uppercase tracking-wide mb-3 shadow-md">
                                 {aiPost.category || 'Güzellik'}
                             </span>
-                            <h1 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight">
+                        </div>
+                    </div>
+
+                    <div className="p-8 sm:p-16">
+                        <div className="mb-12 text-center border-b border-gray-100 pb-10">
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-gray-900 leading-tight mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-green-800">
                                 {aiPost.title}
                             </h1>
-                            <div className="mt-4 text-gray-400 text-sm font-medium">
-                                {new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                            <div className="flex items-center justify-center space-x-2 text-gray-500 font-medium">
+                                <span>{new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                                <span>•</span>
+                                <span className="text-primary flex items-center gap-1"><BookOpen size={16} /> 3 Dk Okuma</span>
                             </div>
                         </div>
 
-                        <div className="blog-content prose prose-lg prose-green mx-auto text-gray-600">
+                        {/* Enhanced Typography & Colors */}
+                        <div className="blog-content prose prose-xl prose-green mx-auto text-gray-600 
+                            [&>h3]:text-3xl [&>h3]:font-serif [&>h3]:text-primary [&>h3]:mt-12 [&>h3]:mb-6 
+                            [&>p]:leading-loose [&>p]:text-lg [&>p]:mb-6
+                            [&>ul]:my-8 [&>ul]:space-y-4 
+                            [&>ul>li]:pl-2 [&>ul>li]:marker:text-primary [&>ul>li]:marker:text-xl
+                            [&>strong]:text-green-800 [&>strong]:font-bold
+                            selection:bg-green-100 selection:text-green-900">
                             <div dangerouslySetInnerHTML={{ __html: aiPost.content }} />
                         </div>
 
-                        <div className="my-12 h-px bg-gray-100" />
+                        <div className="my-16 flex items-center justify-center">
+                            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-gray-200 to-transparent rounded-full"></div>
+                        </div>
 
-                        <div className="flex items-center justify-between text-sm text-gray-500 bg-gray-50 p-6 rounded-xl border border-gray-100">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-green-700 flex items-center justify-center text-white shadow-lg">
-                                    <BookOpen size={20} />
-                                </div>
-                                <div>
-                                    <div className="font-bold text-gray-900">Oriflame Güzellik Editörü</div>
-                                    <div className="text-xs">Güzellik ve Yaşam Uzmanı</div>
-                                </div>
+                        <div className="bg-gradient-to-br from-green-50 to-white p-8 rounded-2xl border border-green-100 flex items-center gap-6 shadow-sm">
+                            <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white shadow-lg shrink-0">
+                                <span className="font-serif text-2xl font-bold">O</span>
+                            </div>
+                            <div>
+                                <div className="font-bold text-xl text-gray-900 mb-1">Oriflame Editör Masası</div>
+                                <p className="text-gray-600">Güzellik, sağlık ve iyi yaşam üzerine uzman ekibimizle hazırladığımız günlük içerikler.</p>
                             </div>
                         </div>
 

@@ -46,10 +46,10 @@ const Footer = () => {
                         <h3 className="text-lg font-bold mb-6 font-serif">Bizi Takip Edin</h3>
                         <p className="text-sm text-gray-400 mb-6">En yeni trendler ve tekliflerden haberdar olun.</p>
                         <div className="flex space-x-4 mb-8">
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors"><Facebook size={20} /></a>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors"><Instagram size={20} /></a>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors"><Youtube size={20} /></a>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors"><Twitter size={20} /></a>
+                            <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Facebook"><Facebook size={20} /></a>
+                            <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Instagram"><Instagram size={20} /></a>
+                            <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Youtube"><Youtube size={20} /></a>
+                            <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Twitter"><Twitter size={20} /></a>
                         </div>
                     </div>
                 </div>

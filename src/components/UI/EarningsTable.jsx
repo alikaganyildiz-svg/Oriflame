@@ -26,7 +26,7 @@ const EarningsTable = () => {
                         </th>
                     </tr>
                 </thead>
-                {/* <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-gray-200">
                     {earningsData.map((row, index) => (
                         <tr key={index} className={index % 2 === 0 ? 'bg-white hover:bg-green-50' : 'bg-gray-50 hover:bg-green-50'}>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -40,7 +40,7 @@ const EarningsTable = () => {
                             </td>
                         </tr>
                     ))}
-                </tbody> */}
+                </tbody>
             </table>
             <p className="mt-2 text-xs text-gray-500">
                 * Kazançlar performansınıza ve ekibinizin satış hacmine göre değişiklik gösterebilir. Güncel rakamlar için danışmanınıza başvurun.

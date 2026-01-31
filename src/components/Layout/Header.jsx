@@ -68,6 +68,7 @@ const Header = () => {
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             className="text-gray-900 hover:text-primary p-2"
+                            aria-label={isMenuOpen ? "Menüyü Kapat" : "Menüyü Aç"}
                         >
                             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>

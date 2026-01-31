@@ -40,7 +40,7 @@ const Hero = () => {
                                 <Image width={40} height={40} className="rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" />
                                 <Image width={40} height={40} className="rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" />
                                 <Image width={40} height={40} className="rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/32.jpg" alt="User" />
-                                <div className="w-10 h-10 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500">+25k</div>
+                                <div className="w-10 h-10 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-600">+25k</div>
                             </div>
                             <p className="text-sm font-medium text-gray-600">
                                 Bu ay <span className="text-primary font-bold">1.250+</span> kişi aramıza katıldı.
@@ -49,7 +49,7 @@ const Hero = () => {
 
                         {/* FAQ */}
                         <div className="pt-2 border-b border-gray-200 pb-8 mb-8">
-                            <h3 className="text-xl font-serif font-bold text-gray-900 mb-4 text-center lg:text-left">Merak Ettikleriniz</h3>
+                            <h2 className="text-xl font-serif font-bold text-gray-900 mb-4 text-center lg:text-left">Merak Ettikleriniz</h2>
                             <FAQ />
                         </div>
 

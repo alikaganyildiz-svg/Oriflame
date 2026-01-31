@@ -32,22 +32,33 @@ export async function generateDailyBlogContent() {
 
     // Create Prompt
     const promptText = `
-    Oriflame üyeleri için 'Life & Beauty' dergisi tadında Türkçe bir blog yazısı hazırla.
+    Oriflame üyeleri için yüksek kaliteli, 'Vogue' veya 'Elle' dergisi tadında Türkçe bir blog yazısı hazırla.
     GENEL TEMA: '${selectedTheme}'
     
     GÖREV:
-    Bu genel temadan yola çıkarak, bugünün tarihine ve mevsime uygun, tamamen ÖZGÜN ve İLGİ ÇEKİCİ bir başlık bul ve o konuda yaz.
+    Bu genel temadan yola çıkarak, bugünün tarihine ve mevsime uygun, okuyucuyu içine çeken, duygusal ve ilham verici bir makale yaz.
     
-    İÇERİK VE TASARIM KURALLARI:
-    1.  **Başlık:** Merak uyandırıcı ve modern olsun.
-    2.  **Format (Çok Önemli):** 'content' alanı SADECE ve SADECE HTML formatında olmalıdır.
-    3.  **Paragraflar:** Her paragrafı mutlaka <p>...</p> etiketleri içine al. Asla \\n karakteri kullanma.
-    4.  **Başlıklar (H3):** Bölüm başlıklarını <h3>...</h3> etiketleri içine al.
-    5.  **Vurgu:** Önemli noktaları <strong>...</strong> ile kalınlaştır.
-    6.  **Liste:** Maddeleri <ul><li>...</li></ul> ile listele.
-    7.  **JSON Yapısı:** Sadece saf JSON döndür: {'title': '...', 'content': '<p>Paragraf 1</p><h3>Başlık</h3><p>Paragraf 2</p>...', 'category': '...', 'image_keyword': '...'}.
-    8.  **Uzunluk:** En az 450 kelime.
-    9.  **Image Keyword:** SADECE şu kelimelerden birini seç: 'skincare', 'makeup', 'business', 'nature', 'perfume', 'wellness', 'hair'. Konuya en uygun olanı seç.
+    ÇOK ÖNEMLİ KURALLAR (Hepsini uygula):
+    1.  **JSON Formatı:** Yanıtın SADECE ve SADECE geçerli bir JSON objesi olmalı.
+    2.  **Başlık:** Çok çarpıcı, merak uyandırıcı, 'clickworthy' bir dergi başlığı olsun.
+    3.  **İçerik (HTML):** 'content' alanı ZENGİN HTML formatında olmalıdır. Düz yazı ASLA kabul edilmez.
+        -   Ana bölümler için <h2> kullan. (En az 2 tane)
+        -   Alt bölümler için <h3> kullan.
+        -   İlham verici sözler veya önemli vurgular için <blockquote> kullan. (Mutlaka 1 tane olsun)
+        -   Listeler için <ul> ve <li> kullan. (Mutlaka 1 tane olsun)
+        -   Her paragraf <p> etiketi içinde olsun.
+        -   Önemli kelimeleri <strong> ile vurgula.
+        -   Metin içine uygun yerlere EMOJİLER (✨, 🌿, 💄 vb.) ekleyerek görsel zenginlik kat.
+    
+    Beklenen JSON Yapısı:
+    {
+      "title": "Çarpıcı Dergi Başlığı Buraya",
+      "content": "<p>Giriş paragrafı...</p><h2>Bölüm Başlığı</h2><p>...</p><blockquote>Alıntı sözü</blockquote>...",
+      "category": "Güzellik / Yaşam / Kariyer vb.",
+      "image_keyword": "SADECE şunlardan biri: 'skincare', 'makeup', 'business', 'nature', 'perfume', 'wellness', 'hair'"
+    }
+
+    Yazı Uzunluğu: Okuyucuyu sıkmayacak ama doyurucu olacak şekilde (ortalama 500-600 kelime).
   `;
 
     try {
@@ -65,9 +76,14 @@ export async function generateDailyBlogContent() {
 
         if (!rawText) return null;
 
-        // Clean JSON
-        rawText = rawText.replace(/```json/g, '').replace(/```/g, '').replace(/html/g, '');
-        const jsonMatch = rawText.match(/\{.*\}/s);
+        // Clean JSON formatting (Markdown fences)
+        rawText = rawText
+            .replace(/^```json\s*/, '') // Remove start fence
+            .replace(/^```\s*/, '')      // Remove generic start fence
+            .replace(/```$/, '')         // Remove end fence
+            .trim(); // Remove whitespace
+
+        const jsonMatch = rawText.match(/\{[\s\S]*\}/); // Try to find JSON object if mixed with text
         if (jsonMatch) rawText = jsonMatch[0];
 
         const aiPost = JSON.parse(rawText);

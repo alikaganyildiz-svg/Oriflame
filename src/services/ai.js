@@ -61,8 +61,8 @@ export async function generateDailyBlogContent() {
 
     try {
         // 2. Call Google Gemini API
-        // FIX: Changed model to 1.5-flash
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        // FIX: Using specific model version gemini-1.5-flash-001 to avoid 404
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-001:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { UserPlus, ChevronRight, Loader2 } from 'lucide-react';
 

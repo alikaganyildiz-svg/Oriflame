@@ -3,9 +3,8 @@ import React from 'react';
 import { BookOpen } from 'lucide-react';
 import { generateDailyBlogContent } from '@/services/ai';
 
-// Geliştirme aşamasında değişiklikleri görebilmek için cache'i kapatıyoruz.
-// Normalde: export const revalidate = 86400;
-export const revalidate = 0;
+// Günde 1 kez (24 saat = 86400 saniye) yenilenmesi için:
+export const revalidate = 86400;
 
 const topicImages = {
     'skincare': 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=2000',

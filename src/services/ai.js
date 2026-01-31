@@ -48,7 +48,6 @@ export async function generateDailyBlogContent() {
         -   Listeler için <ul> ve <li> kullan. (Mutlaka 1 tane olsun)
         -   Her paragraf <p> etiketi içinde olsun.
         -   Önemli kelimeleri <strong> ile vurgula.
-        -   Metin içine uygun yerlere EMOJİLER (✨, 🌿, 💄 vb.) ekleyerek görsel zenginlik kat.
     
     Beklenen JSON Yapısı:
     {

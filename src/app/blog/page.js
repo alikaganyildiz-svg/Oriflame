@@ -85,23 +85,32 @@ export default async function BlogPage() {
                             </div>
                         </div>
 
-                        {/* Enhanced Typography & Colors */}
-                        <div className="blog-content prose prose-lg md:prose-xl prose-stone mx-auto text-gray-700
+                        {/* Enhanced Typography & Colors with Drop Cap */}
+                        <div className="blog-content prose prose-lg md:prose-2xl prose-stone mx-auto text-gray-700
                             prose-headings:font-serif prose-headings:font-bold prose-headings:text-green-900
                             prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:leading-tight
                             prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:text-primary prose-h3:mt-10 prose-h3:mb-4
                             
                             prose-p:text-lg md:prose-p:text-xl prose-p:leading-relaxed prose-p:text-gray-600 prose-p:mb-6
                             
+                            /* Drop Cap Style */
+                            [&>p:first-of-type::first-letter]:text-7xl 
+                            [&>p:first-of-type::first-letter]:font-serif 
+                            [&>p:first-of-type::first-letter]:text-green-800 
+                            [&>p:first-of-type::first-letter]:float-left 
+                            [&>p:first-of-type::first-letter]:mr-3 
+                            [&>p:first-of-type::first-letter]:mt-[-10px] 
+                            [&>p:first-of-type::first-letter]:font-bold
+                            
                             prose-strong:text-green-800 prose-strong:font-black prose-strong:bg-green-50 prose-strong:px-1 prose-strong:rounded
                             
-                            prose-ul:my-8 prose-ul:list-none prose-ul:pl-0 prose-ul:space-y-4
-                            [&>ul>li]:relative [&>ul>li]:pl-7 [&>ul>li]:text-lg md:[&>ul>li]:text-xl before:[&>ul>li]:content-['✓'] before:[&>ul>li]:absolute before:[&>ul>li]:left-0 before:[&>ul>li]:text-primary before:[&>ul>li]:font-bold
+                            prose-ul:my-8 prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-3 prose-ul:marker:text-primary prose-ul:marker:text-2xl
+                            [&>ul>li]:text-lg md:[&>ul>li]:text-xl
                             
-                            prose-ol:my-8 prose-ol:space-y-4 prose-ol:pl-6
-                            [&>ol>li]:text-lg md:[&>ol>li]:text-xl marker:[&>ol>li]:text-primary marker:[&>ol>li]:font-bold
+                            prose-ol:my-8 prose-ol:list-decimal prose-ol:pl-6 prose-ol:space-y-3 prose-ol:marker:text-primary prose-ol:marker:font-bold prose-ol:marker:text-xl
+                            [&>ol>li]:text-lg md:[&>ol>li]:text-xl
                             
-                            prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-gradient-to-r prose-blockquote:from-green-50 prose-blockquote:to-transparent prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-xl prose-blockquote:not-italic prose-blockquote:text-green-900 prose-blockquote:shadow-sm
+                            prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-gray-50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:italic prose-blockquote:text-green-900 prose-blockquote:text-xl md:prose-blockquote:text-2xl prose-blockquote:font-serif
                             
                             selection:bg-primary/20 selection:text-green-900">
                             <div dangerouslySetInnerHTML={{ __html: aiPost.content }} />

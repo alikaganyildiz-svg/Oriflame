@@ -56,12 +56,7 @@ const Header = () => {
                         ))}
                     </nav>
 
-                    {/* CTA Button */}
-                    <div className="hidden md:flex items-center space-x-4">
-                        <a href="#basvuru" className="bg-primary hover:bg-green-800 text-white px-6 py-2 rounded-sm uppercase text-xs font-bold tracking-widest transition-all">
-                            Hemen Üye Ol
-                        </a>
-                    </div>
+                    {/* CTA Button removed per user request */}
 
                     {/* Mobile Menu Button */}
                     <div className="flex items-center md:hidden">
@@ -101,9 +96,7 @@ const Header = () => {
                                 </a>
                             )
                         ))}
-                        <a href="#basvuru" className="block w-full text-center bg-primary text-white mt-4 py-3 rounded-sm font-bold uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
-                            Ücretsiz Kayıt Ol
-                        </a>
+
                     </div>
                 </div>
             )}

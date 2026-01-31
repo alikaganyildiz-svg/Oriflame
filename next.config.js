@@ -1,20 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // legacy domain config to resolve 404s
     images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'images.unsplash.com',
-            },
-            {
-                protocol: 'https',
-                hostname: 'randomuser.me',
-            },
-            {
-                protocol: 'https',
-                hostname: 'image.pollinations.ai',
-            }
-        ],
+        domains: ['images.unsplash.com', 'randomuser.me', 'image.pollinations.ai'],
+        unoptimized: true // Temporary fix to ensure images load
     },
 };
 

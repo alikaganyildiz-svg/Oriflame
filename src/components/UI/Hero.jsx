@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
-import MembershipForm from './MembershipForm';
+// import MembershipForm from './MembershipForm'; // Removed per user request
 import FAQ from './FAQ';
 
 const Hero = () => {
     return (
-        <section className="relative w-full bg-gray-50 py-12 lg:py-20 overflow-hidden">
+        <section className="relative w-full bg-gray-50 py-12 lg:py-24 overflow-hidden min-h-screen flex items-center">
             {/* Background Image Layer */}
             <div className="absolute inset-0 z-0">
                 <Image
@@ -13,91 +13,84 @@ const Hero = () => {
                     alt="Oriflame Background"
                     fill
                     priority
-                    className="object-cover opacity-20 filter blur-sm"
+                    className="object-cover opacity-15 filter blur-sm"
                     sizes="100vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-background via-white/80 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/70 to-gray-50/90"></div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start pt-10">
-                    {/* Left Content */}
-                    <div className="space-y-6 text-center lg:text-left animate-fade-in-up lg:sticky lg:top-24">
-                        <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary font-bold text-xs uppercase tracking-widest rounded-full">
-                            Kariyer Fırsatı
-                        </span>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-gray-900 leading-tight">
-                            Kendi İşinin <br />
-                            <span className="text-primary italic">Patronu Ol</span>
-                        </h1>
-                        <p className="text-lg text-gray-600 max-w-xl mx-auto lg:mx-0">
-                            Sermayesiz, risksiz ve çalışma saatlerini senin belirlediğin bir iş fırsatı.
-                            Formu doldur, ücretsiz Oriflame dünyasına katıl ve kazanmaya hemen başla.
-                        </p>
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4 pt-4 border-b border-gray-200 pb-8 mb-8">
-                            <div className="flex -space-x-2">
-                                <Image width={40} height={40} className="rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" />
-                                <Image width={40} height={40} className="rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" />
-                                <Image width={40} height={40} className="rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/32.jpg" alt="User" />
-                                <div className="w-10 h-10 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-600">+25k</div>
-                            </div>
-                            <p className="text-sm font-medium text-gray-600">
-                                Bu ay <span className="text-primary font-bold">1.250+</span> kişi aramıza katıldı.
+                <div className="space-y-8 animate-fade-in-up">
+                    <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary font-bold text-sm uppercase tracking-widest rounded-full mb-2">
+                        Güzellik & Kazanç Dünyası
+                    </span>
+
+                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-gray-900 leading-tight">
+                        Kendi İşinin <br />
+                        <span className="text-primary italic">Patronu Ol</span>
+                    </h1>
+
+                    <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        Sermayesiz, risksiz ve çalışma saatlerini senin belirlediğin bir iş fırsatı.
+                        Oriflame dünyasına katıl, hem harika görün hem de kazanmaya başla.
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 pt-8 border-b border-gray-200 pb-10 mb-10 w-full max-w-2xl mx-auto">
+                        <div className="flex -space-x-4">
+                            <Image width={56} height={56} className="rounded-full border-4 border-white shadow-md" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" />
+                            <Image width={56} height={56} className="rounded-full border-4 border-white shadow-md" src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" />
+                            <Image width={56} height={56} className="rounded-full border-4 border-white shadow-md" src="https://randomuser.me/api/portraits/women/32.jpg" alt="User" />
+                            <div className="w-14 h-14 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600 shadow-md">+25k</div>
+                        </div>
+                        <p className="text-base text-gray-700 font-medium">
+                            Bu ay <span className="text-primary font-bold text-lg">1.250+</span> kişi aramıza katıldı.
+                        </p>
+                    </div>
+
+                    {/* FAQ */}
+                    <div className="max-w-4xl mx-auto text-left bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <h2 className="text-2xl font-serif font-bold text-gray-900 mb-6 text-center">Merak Ettikleriniz</h2>
+                        <FAQ />
+                    </div>
+
+                    {/* SEO Content Block */}
+                    <div className="space-y-12 text-gray-700 leading-relaxed text-lg max-w-4xl mx-auto pt-10 text-left">
+                        <div>
+                            <h2 className="text-3xl font-serif font-bold text-primary mb-4">Oriflame İle Hayallerinize Kapı Aralayın</h2>
+                            <p>
+                                Oriflame dünyasına adım atmak artık çok kolay. Güzellik ve kazanç dolu bir yolculuğa çıkın.
+                                İster kendi ihtiyaçlarınızı indirimli almak için, ister <strong>sermayesiz iş</strong> kurarak ek gelir elde etmek için Oriflame avantajlarından faydalanabilirsiniz.
+                                Binlerce kişi gibi siz de hayallerinize ulaşmak için ilk adımı atın.
                             </p>
                         </div>
 
-                        {/* FAQ */}
-                        <div className="pt-2 border-b border-gray-200 pb-8 mb-8">
-                            <h2 className="text-xl font-serif font-bold text-gray-900 mb-4 text-center lg:text-left">Merak Ettikleriniz</h2>
-                            <FAQ />
-                        </div>
-
-                        {/* SEO Content Block */}
-                        <div className="space-y-8 text-gray-700 leading-relaxed text-sm md:text-base animate-fade-in-up delay-200">
-                            <div>
-                                <h2 className="text-2xl font-serif font-bold text-primary mb-3">Oriflame Kayıt Ol ile Hayallerinize Kapı Aralayın</h2>
-                                <p>
-                                    Oriflame dünyasına adım atmak artık çok kolay. <strong>Oriflame kayıt ol</strong> işlemini tamamlayarak, güzellik ve kazanç dolu bir yolculuğa çıkın.
-                                    İster kendi ihtiyaçlarınızı indirimli almak için, ister <strong>sermayesiz iş</strong> kurarak ek gelir elde etmek için <strong>Oriflame üyelik</strong> avantajlarından faydalanabilirsiniz.
-                                    Binlerce kişi gibi siz de hayallerinize ulaşmak için ilk adımı atın.
-                                </p>
-                            </div>
-
-                            <div>
-                                <h2 className="text-xl font-serif font-bold text-gray-900 mb-2">Oriflame Katalog ile Kazanç Fırsatları</h2>
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <div className="bg-white p-6 rounded-xl shadow-sm">
+                                <h2 className="text-2xl font-serif font-bold text-gray-900 mb-3">Katalog ile Kazanç</h2>
                                 <p>
                                     Her ay yenilenen <strong>Oriflame katalog</strong>, binlerce kozmetik, cilt bakımı ve wellness ürününü beğeninize sunar.
-                                    <strong>Ücretsiz kayıt</strong> sonrasında kataloğu çevrenizle paylaşarak sipariş toplayabilir, satışlarınızdan anında kâr elde edebilirsiniz.
-                                    Kendi işinizin patronu olmak, çalışma saatlerinizi özgürce belirlemek ve finansal özgürlüğe kavuşmak için <strong>Oriflame</strong> size eşsiz imkanlar tanır.
+                                    Kataloğu çevrenizle paylaşarak sipariş toplayabilir, satışlarınızdan anında kâr elde edebilirsiniz.
+                                    Kendi işinizin patronu olmak ve finansal özgürlüğe kavuşmak için eşsiz imkanlar tanır.
                                 </p>
                             </div>
 
-                            <div>
-                                <h2 className="text-xl font-serif font-bold text-gray-900 mb-2">Oriflame Üyelik Avantajları Nelerdir?</h2>
-                                <ul className="list-disc list-inside space-y-2 mt-2 marker:text-primary">
-                                    <li><strong>Ücretsiz Üyelik Başvurusu:</strong> Hiçbir kayıt ücreti veya aidat ödemeden sisteme dahil olun.</li>
-                                    <li><strong>İndirimli Alışveriş:</strong> Tüm <strong>Oriflame</strong> ürünlerine katalog fiyatı üzerinden özel indirimlerle sahip olun.</li>
-                                    <li><strong>Hoşgeldin Hediyeleri:</strong> Yeni kayıt olan girişimcilere özel sürpriz ürünler ve başlangıç setleri kazanın.</li>
-                                    <li><strong>Kariyer Fırsatı:</strong> Kendi ekibinizi kurarak performans primleri, nakit ödüller ve seyahatler kazanın.</li>
+                            <div className="bg-white p-6 rounded-xl shadow-sm">
+                                <h2 className="text-2xl font-serif font-bold text-gray-900 mb-3">Üyelik Avantajları</h2>
+                                <ul className="space-y-3 mt-2">
+                                    <li className="flex items-start"><span className="text-primary mr-2">✓</span> <span><strong>Ücretsiz Başlangıç:</strong> Hiçbir ücret ödemeden sisteme dahil olun.</span></li>
+                                    <li className="flex items-start"><span className="text-primary mr-2">✓</span> <span><strong>İndirimli Alışveriş:</strong> Tüm ürünlere özel indirimlerle sahip olun.</span></li>
+                                    <li className="flex items-start"><span className="text-primary mr-2">✓</span> <span><strong>Hoşgeldin Hediyeleri:</strong> Başlangıç setleri kazanın.</span></li>
+                                    <li className="flex items-start"><span className="text-primary mr-2">✓</span> <span><strong>Kariyer Fırsatı:</strong> Performans primleri ve seyahatler kazanın.</span></li>
                                 </ul>
                             </div>
-
-                            <div>
-                                <h2 className="text-xl font-serif font-bold text-gray-900 mb-2">Hemen Oriflame'e Katılın</h2>
-                                <p>
-                                    Yan taraftaki formu hemen doldurarak <strong>Oriflame</strong> ailesinin mutlu bir üyesi olun.
-                                    T.C. kimlik numaranız ve iletişim bilgilerinizle güvenle kaydınızı oluşturun.
-                                    İşleminiz tamamlandığında danışmanlarımız sizi arayarak <strong>Oriflame katalog</strong> gönderimi ve süreç hakkında detaylı bilgilendirme yapacaktır.
-                                    Hayallerinizi ertelemeyin, <strong>ücretsiz kayıt</strong> fırsatıyla kazanmaya bugün başlayın!
-                                </p>
-                            </div>
                         </div>
-                    </div>
 
-                    {/* Right Form */}
-                    <div className="w-full max-w-md mx-auto lg:ml-auto">
-                        <MembershipForm />
+                        <div className="text-center pt-8">
+                            <p className="italic text-gray-500">
+                                Hayallerinizi ertelemeyin, kazanmaya bugün başlayın!
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

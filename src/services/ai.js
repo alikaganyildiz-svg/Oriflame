@@ -38,65 +38,72 @@ export async function generateDailyBlogContent() {
     GÖREV:
     Bu genel temadan yola çıkarak, bugünün tarihine ve mevsime uygun, okuyucuyu içine çeken, duygusal ve ilham verici bir makale yaz.
     
-    ÇOK ÖNEMLİ KURALLAR (Hepsini uygula):
-    1.  **JSON Formatı:** Yanıtın SADECE ve SADECE geçerli bir JSON objesi olmalı.
-    2.  **Başlık:** Çok çarpıcı, merak uyandırıcı, 'clickworthy' bir dergi başlığı olsun.
-    3.  **İçerik (HTML):** 'content' alanı ZENGİN HTML formatında olmalıdır. Düz yazı ASLA kabul edilmez.
-        -   Ana bölümler için <h2> kullan. (En az 2 tane)
-        -   Alt bölümler için <h3> kullan.
-        -   İlham verici sözler veya önemli vurgular için <blockquote> kullan. (Mutlaka 1 tane olsun)
-        -   Listeler için <ul> ve <li> kullan. (Mutlaka 1 tane olsun)
-        -   Her paragraf <p> etiketi içinde olsun.
-        -   Önemli kelimeleri <strong> ile vurgula.
+    AŞIRI ÖNEMLİ FORMAT KURALLARI (Harfiyen uyulmalı):
+    1.  **JSON Response:** Yanıtın SADECE geçerli bir JSON objesi olmalı. Markdown (```json) kullanma.
+    2. ** HTML Content:** 'content' alanı, tarayıcıda render edilecek ** SAF HTML ** kodu içermelidir.
+        - Metni MUTLAKA paragraf `<p>` etiketleri içine al. (En az 4 - 5 paragraf)
+        - Bölümleri ayırmak için `<h2>` kullan.
+        - Alt başlıklar için `<h3>` kullan.
+        - İlham verici bir sözü `<blockquote>` içine al.
+        - Önerilerini`<ul>` ve `<li>` etiketleri ile listele.
+        - Asla düz metin(\n) döndürme, her şey HTML etiketi içinde olmalı.
+    
+    Beklenen JSON Örneği:
+    {
+        "title": "İlham Verici Başlık",
+            "content": "<p>İlk paragraf buraya...</p><h2>Alt Başlık</h2><p>İkinci paragraf...</p><blockquote>Güzellik içeriden gelir.</blockquote><ul><li>Öneri 1</li><li>Öneri 2</li></ul>",
+                "category": "Güzellik",
+                    "image_keyword": "makeup"
+    }
     
     Beklenen JSON Yapısı:
     {
-      "title": "Çarpıcı Dergi Başlığı Buraya",
-      "content": "<p>Giriş paragrafı...</p><h2>Bölüm Başlığı</h2><p>...</p><blockquote>Alıntı sözü</blockquote>...",
-      "category": "Güzellik / Yaşam / Kariyer vb.",
-      "image_keyword": "SADECE şunlardan biri: 'skincare', 'makeup', 'business', 'nature', 'perfume', 'wellness', 'hair'"
+        "title": "Çarpıcı Dergi Başlığı Buraya",
+            "content": "<p>Giriş paragrafı...</p><h2>Bölüm Başlığı</h2><p>...</p><blockquote>Alıntı sözü</blockquote>...",
+                "category": "Güzellik / Yaşam / Kariyer vb.",
+                    "image_keyword": "SADECE şunlardan biri: 'skincare', 'makeup', 'business', 'nature', 'perfume', 'wellness', 'hair'"
     }
 
-    Yazı Uzunluğu: Okuyucuyu sıkmayacak ama doyurucu olacak şekilde (ortalama 500-600 kelime).
+    Yazı Uzunluğu: Okuyucuyu sıkmayacak ama doyurucu olacak şekilde(ortalama 500 - 600 kelime).
   `;
 
     try {
         // 2. Call Google Gemini API
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: promptText }] }]
-            })
-        });
+    method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        contents: [{ parts: [{ text: promptText }] }]
+    })
+});
 
-        const data = await response.json();
-        let rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+const data = await response.json();
+let rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
-        if (!rawText) return null;
+if (!rawText) return null;
 
-        // Clean JSON formatting (Markdown fences)
-        rawText = rawText
-            .replace(/^```json\s*/, '') // Remove start fence
-            .replace(/^```\s*/, '')      // Remove generic start fence
-            .replace(/```$/, '')         // Remove end fence
-            .trim(); // Remove whitespace
+// Clean JSON formatting (Markdown fences)
+rawText = rawText
+    .replace(/^```json\s*/, '') // Remove start fence
+    .replace(/^```\s*/, '')      // Remove generic start fence
+    .replace(/```$/, '')         // Remove end fence
+    .trim(); // Remove whitespace
 
-        const jsonMatch = rawText.match(/\{[\s\S]*\}/); // Try to find JSON object if mixed with text
-        if (jsonMatch) rawText = jsonMatch[0];
+const jsonMatch = rawText.match(/\{[\s\S]*\}/); // Try to find JSON object if mixed with text
+if (jsonMatch) rawText = jsonMatch[0];
 
-        const aiPost = JSON.parse(rawText);
+const aiPost = JSON.parse(rawText);
 
-        // 3. Generate Image using Pollinations AI
-        const imagePrompt = encodeURIComponent(`${aiPost.title}, 4k, photorealistic, cinematic lighting, high quality, beauty magazine style`);
-        const imageUrl = `https://image.pollinations.ai/prompt/${imagePrompt}?width=1280&height=720&nologo=true&enhance=true&model=flux&seed=${Math.floor(Math.random() * 99999)}`;
+// 3. Generate Image using Pollinations AI
+const imagePrompt = encodeURIComponent(`${aiPost.title}, 4k, photorealistic, cinematic lighting, high quality, beauty magazine style`);
+const imageUrl = `https://image.pollinations.ai/prompt/${imagePrompt}?width=1280&height=720&nologo=true&enhance=true&model=flux&seed=${Math.floor(Math.random() * 99999)}`;
 
-        aiPost.generated_image_url = imageUrl;
+aiPost.generated_image_url = imageUrl;
 
-        return aiPost;
+return aiPost;
 
     } catch (error) {
-        console.error("AI Generation Error:", error);
-        return null;
-    }
+    console.error("AI Generation Error:", error);
+    return null;
+}
 }

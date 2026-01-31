@@ -3,9 +3,9 @@ import React from 'react';
 import { BookOpen } from 'lucide-react';
 import { generateDailyBlogContent } from '@/services/ai';
 
-// 24 saniye değil, 24 SAAT (86400 saniye) boyunca cache'le.
-// Bu sayede siteye günde 1 kez giren ilk kişi içeriği oluşturur, sonrakiler aynısını görür.
-export const revalidate = 86400;
+// Geliştirme aşamasında değişiklikleri görebilmek için cache'i kapatıyoruz.
+// Normalde: export const revalidate = 86400;
+export const revalidate = 0;
 
 const topicImages = {
     'skincare': 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=2000',

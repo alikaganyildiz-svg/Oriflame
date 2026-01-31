@@ -1,65 +1,98 @@
-import Image from "next/image";
+
+import Hero from '@/components/UI/Hero';
+import InfoSection from '@/components/UI/InfoSection';
+import EarningsTable from '@/components/UI/EarningsTable';
+
+export const metadata = {
+  title: 'Oriflame Üyelik ve Kayıt | Oriflame Katalog & Sermayesiz İş',
+  description: 'Oriflame kayıt ol işlemi ile ücretsiz üyelik fırsatını yakalayın. Sermayesiz iş kurarak Oriflame katalog ürünlerine indirimli sahip olun. Hemen Oriflame dünyasına katılın.',
+}
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-background pb-20">
+
+      {/* HERO SECTION (Includes Form) */}
+      <div id="basvuru">
+        <Hero />
+      </div>
+
+      {/* INFO / FEATURES SECTION */}
+      <section className="py-16 bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">Neden Oriflame?</h2>
+            <p className="text-gray-500 max-w-2xl mx-auto">Hayallerinize ulaşmak için size sunduğumuz eşsiz fırsatları keşfedin.</p>
+          </div>
+          <InfoSection />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+      </section>
+
+      {/* EARNINGS SECTION */}
+      <section id="kazanc" className="py-16 bg-green-50/50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-primary font-bold tracking-widest uppercase text-xs mb-2 block">Kazanç Planı</span>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6">Ne Kadar Kazanabilirsin?</h2>
+            <p className="text-gray-600 max-w-3xl mx-auto mb-8">
+              Oriflame'de kazancın limiti yoktur. Satışlarınızdan anında %30 kâr elde ederken, ekibinizi büyüterek performans iskontoları ile aylık düzenli gelir sahibi olabilirsiniz.
+            </p>
+          </div>
+          <div className="bg-white p-4 rounded-xl shadow-lg">
+            <EarningsTable />
+          </div>
+        </div>
+      </section>
+
+      {/* WELCOME PROGRAM / GIFTS (Placeholder for now, can be image based) */}
+      <section id="hediyeler" className="py-16 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="w-full md:w-1/2">
+              <img
+                src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?q=80&w=1887&auto=format&fit=crop"
+                alt="Hoşgeldin Hediyeleri"
+                className="rounded-lg shadow-2xl transform md:-rotate-2 hover:rotate-0 transition-transform duration-500"
+              />
+            </div>
+            <div className="w-full md:w-1/2 space-y-6">
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900">Hoşgeldin Programı</h2>
+              <p className="text-lg text-gray-600">
+                İlk 3 ayınızda vereceğiniz siparişlerle birbirinden değerli parfüm ve cilt bakım setlerine sembolik fiyatlarla sahip olun.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-center space-x-3">
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">1</span>
+                  <span className="text-gray-700">1. Ay: Göz Alıcı Parfüm</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">2</span>
+                  <span className="text-gray-700">2. Ay: Lüks Cilt Bakım Seti</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">3</span>
+                  <span className="text-gray-700">3. Ay: Profesyonel Makyaj Koleksiyonu</span>
+                </li>
+              </ul>
+              <a href="#basvuru" className="inline-block mt-4 text-primary font-bold border-b-2 border-primary pb-1 hover:text-green-800 transition-colors">
+                Hemen Başvur ve Kazan &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* BOTTOM CTA */}
+      <section className="py-20 bg-primary text-white text-center">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6">Hayallerine Bir Adım At</h2>
+          <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">Binlerce kadın Oriflame ile kendi ayakları üzerinde duruyor. Sen de onlardan biri ol.</p>
+          <a href="#basvuru" className="inline-block bg-white text-primary px-10 py-4 rounded-sm font-bold uppercase tracking-widest text-sm hover:bg-gray-100 transition-colors shadow-xl">
+            Ücretsiz Üye Ol
           </a>
         </div>
-      </main>
+      </section>
+
     </div>
   );
 }

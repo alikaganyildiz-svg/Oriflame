@@ -3,6 +3,8 @@ import Hero from '@/components/UI/Hero';
 import InfoSection from '@/components/UI/InfoSection';
 import EarningsTable from '@/components/UI/EarningsTable';
 
+import Image from 'next/image';
+
 export const metadata = {
   title: 'Oriflame Üyelik ve Kayıt | Oriflame Katalog & Sermayesiz İş',
   description: 'Oriflame kayıt ol işlemi ile ücretsiz üyelik fırsatını yakalayın. Sermayesiz iş kurarak Oriflame katalog ürünlerine indirimli sahip olun. Hemen Oriflame dünyasına katılın.',
@@ -49,10 +51,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="w-full md:w-1/2">
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?q=80&w=1887&auto=format&fit=crop"
                 alt="Hoşgeldin Hediyeleri"
-                className="rounded-lg shadow-2xl transform md:-rotate-2 hover:rotate-0 transition-transform duration-500"
+                width={600}
+                height={400}
+                className="rounded-lg shadow-2xl transform md:-rotate-2 hover:rotate-0 transition-transform duration-500 w-full h-auto"
               />
             </div>
             <div className="w-full md:w-1/2 space-y-6">

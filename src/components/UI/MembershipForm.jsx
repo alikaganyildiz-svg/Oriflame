@@ -14,6 +14,7 @@ const MembershipForm = () => {
                 <iframe
                     src="https://tr.oriflame.com/business-opportunity/become-consultant?sc_device=Blog&potentialSponsor=4170097"
                     scrolling="yes"
+                    loading="lazy"
                     frameBorder="0"
                     className="w-full mx-auto"
                     style={{ height: '1825px', minHeight: '100%' }}

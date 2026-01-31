@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import MembershipForm from './MembershipForm';
 import FAQ from './FAQ';
 
@@ -7,10 +8,13 @@ const Hero = () => {
         <section className="relative w-full bg-gray-50 py-12 lg:py-20 overflow-hidden">
             {/* Background Image Layer */}
             <div className="absolute inset-0 z-0">
-                <img
+                <Image
                     src="https://images.unsplash.com/photo-1596462502278-27bfdd403348?q=80&w=2070&auto=format&fit=crop"
                     alt="Oriflame Background"
-                    className="w-full h-full object-cover opacity-20 filter blur-sm"
+                    fill
+                    priority
+                    className="object-cover opacity-20 filter blur-sm"
+                    sizes="100vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-background via-white/80 to-transparent"></div>
             </div>
@@ -33,9 +37,9 @@ const Hero = () => {
 
                         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4 pt-4 border-b border-gray-200 pb-8 mb-8">
                             <div className="flex -space-x-2">
-                                <img className="w-10 h-10 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" />
-                                <img className="w-10 h-10 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" />
-                                <img className="w-10 h-10 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/32.jpg" alt="User" />
+                                <Image width={40} height={40} className="rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" />
+                                <Image width={40} height={40} className="rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" />
+                                <Image width={40} height={40} className="rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/32.jpg" alt="User" />
                                 <div className="w-10 h-10 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500">+25k</div>
                             </div>
                             <p className="text-sm font-medium text-gray-600">

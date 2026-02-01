@@ -108,8 +108,8 @@ export async function generateDailyBlogContent() {
         const visualDescription = aiPost.image_prompt || `${aiPost.title}, beauty magazine style, high fashion`;
 
         // Negative prompt to reduce anatomical errors (Hands, fingers, etc.)
-        const negativePrompt = "(bad anatomy, extra fingers, deformed hands, distorted, disfigured, mutated, ugly, blurry, low quality:1.5)";
-        const finalPrompt = `${visualDescription}, 4k, photorealistic, cinematic lighting, hd, 8k, perfect anatomy, detailed hands ${negativePrompt}`;
+        const negativePrompt = "(bad anatomy, extra fingers, deformed hands, distorted, disfigured, mutated, ugly, blurry, low quality, bad eyes, crossed eyes, asymmetric eyes, poorly drawn face, mutated face, bad mouth, bad teeth:1.5)";
+        const finalPrompt = `${visualDescription}, 4k, photorealistic, cinematic lighting, hd, 8k, perfect anatomy, detailed hands, beautiful face, symmetrical eyes ${negativePrompt}`;
 
         const imagePrompt = encodeURIComponent(finalPrompt);
         const imageUrl = `https://image.pollinations.ai/prompt/${imagePrompt}?width=1280&height=720&nologo=true&enhance=true&model=flux&seed=${Math.floor(Math.random() * 99999)}`;

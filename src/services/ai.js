@@ -51,8 +51,9 @@ export async function generateDailyBlogContent() {
     Beklenen JSON Yapısı:
     {
         "title": "Çarpıcı Dergi Başlığı Buraya",
-        "content": "<p>Giriş paragrafı...</p><h2>Bölüm Başlığı</h2><p>...</p><blockquote>Alıntı sözü</blockquote>...",
+        "content": "<p>Giriş paragrafı...</p><h2>Bölüm Başlığı</h2><p>...",
         "category": "Güzellik / Yaşam / Kariyer vb.",
+        "image_prompt": "Yazının içeriğini, atmosferini ve estetiğini en iyi yansıtan, 'Midjourney' stili, çok detaylı, fotorealistik, sinematik ışıklandırmalı İNGİLİZCE görsel oluşturma komutu. (Örn: 'Close up shot of a woman with glowing skin applying serum, natural sunlight, bokeh background, high fashion editorial style')",
         "image_keyword": "SADECE şunlardan biri: 'skincare', 'makeup', 'business', 'nature', 'perfume', 'wellness', 'hair'"
     }
 
@@ -62,7 +63,7 @@ export async function generateDailyBlogContent() {
     try {
         // 2. Call Google Gemini API
         // FIX: Using specific model version gemini-1.5-flash-001 to avoid 404
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-001:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -103,7 +104,9 @@ export async function generateDailyBlogContent() {
         }
 
         // 3. Generate Image using Pollinations AI
-        const imagePrompt = encodeURIComponent(`${aiPost.title}, 4k, photorealistic, cinematic lighting, high quality, beauty magazine style`);
+        // Use the specfic image_prompt from Gemini if available, otherwise fallback to title
+        const visualDescription = aiPost.image_prompt || `${aiPost.title}, beauty magazine style, high fashion`;
+        const imagePrompt = encodeURIComponent(`${visualDescription}, 4k, photorealistic, cinematic lighting, hd, 8k`);
         const imageUrl = `https://image.pollinations.ai/prompt/${imagePrompt}?width=1280&height=720&nologo=true&enhance=true&model=flux&seed=${Math.floor(Math.random() * 99999)}`;
 
         aiPost.generated_image_url = imageUrl;

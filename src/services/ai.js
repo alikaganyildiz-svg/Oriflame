@@ -106,7 +106,12 @@ export async function generateDailyBlogContent() {
         // 3. Generate Image using Pollinations AI
         // Use the specfic image_prompt from Gemini if available, otherwise fallback to title
         const visualDescription = aiPost.image_prompt || `${aiPost.title}, beauty magazine style, high fashion`;
-        const imagePrompt = encodeURIComponent(`${visualDescription}, 4k, photorealistic, cinematic lighting, hd, 8k`);
+
+        // Negative prompt to reduce anatomical errors (Hands, fingers, etc.)
+        const negativePrompt = "(bad anatomy, extra fingers, deformed hands, distorted, disfigured, mutated, ugly, blurry, low quality:1.5)";
+        const finalPrompt = `${visualDescription}, 4k, photorealistic, cinematic lighting, hd, 8k, perfect anatomy, detailed hands ${negativePrompt}`;
+
+        const imagePrompt = encodeURIComponent(finalPrompt);
         const imageUrl = `https://image.pollinations.ai/prompt/${imagePrompt}?width=1280&height=720&nologo=true&enhance=true&model=flux&seed=${Math.floor(Math.random() * 99999)}`;
 
         aiPost.generated_image_url = imageUrl;

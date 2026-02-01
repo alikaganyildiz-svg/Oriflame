@@ -12,7 +12,7 @@ const EarningsTable = () => {
 
     return (
         <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 shadow-sm rounded-lg">
+            {/* <table className="min-w-full divide-y divide-gray-200 border border-gray-200 shadow-sm rounded-lg">
                 <thead className="bg-gray-50">
                     <tr>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
@@ -44,7 +44,7 @@ const EarningsTable = () => {
             </table>
             <p className="mt-2 text-xs text-gray-500">
                 * Kazançlar performansınıza ve ekibinizin satış hacmine göre değişiklik gösterebilir. Güncel rakamlar için danışmanınıza başvurun.
-            </p>
+            </p> */}
         </div>
     );
 };

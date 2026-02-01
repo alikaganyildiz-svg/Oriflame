@@ -31,7 +31,7 @@ export default function Home() {
       </section>
 
       {/* EARNINGS SECTION */}
-      <section id="kazanc" className="py-16 bg-green-50/50">
+      {/* <section id="kazanc" className="py-16 bg-green-50/50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-primary font-bold tracking-widest uppercase text-xs mb-2 block">Kazanç Planı</span>
@@ -44,7 +44,7 @@ export default function Home() {
             <EarningsTable />
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* WELCOME PROGRAM / GIFTS (Placeholder for now, can be image based) */}
       <section id="hediyeler" className="py-16 bg-white overflow-hidden">

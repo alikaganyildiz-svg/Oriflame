@@ -117,17 +117,7 @@ export async function getAllPosts() {
     return await getPosts();
 }
 
-export async function clearAllPosts() {
-    try {
-        await connectRedis();
-        await client.del(REDIS_KEY);
-        console.log(`[Redis] Cleared all posts from key: ${REDIS_KEY}`);
-        return true;
-    } catch (error) {
-        console.error("Error clearing blog posts:", error);
-        return false;
-    }
-}
+
 
 export async function getPostBySlug(slug) {
     const posts = await getPosts();

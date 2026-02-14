@@ -13,8 +13,8 @@ export async function GET(request) {
         console.log("Cron started: Refreshing blog content...");
 
         // 1. Yeni içerik oluştur ve kaydet
-        console.log("Generating new blog post...");
-        const newPost = await generateAndSaveNewPost();
+        console.log("Generating new blog post (LIVE TEST)...");
+        const newPost = await generateAndSaveNewPost(true);
 
         if (newPost.error) {
             console.error("Failed to generate post:", newPost.error);
@@ -26,7 +26,7 @@ export async function GET(request) {
         console.log("Cache pruned using revalidatePath('/blog') after new post generation.");
 
         // 3. Sayfayı 'Warm-up' yap (Opsiyonel ama iyi olur)
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || `https://${process.env.VERCEL_URL}` || 'http://localhost:3000';
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
         const blogUrl = `${baseUrl}/blog`;
 
         console.log(`Fetching blog page to warm cache: ${blogUrl}`);

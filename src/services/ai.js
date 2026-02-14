@@ -100,17 +100,32 @@ export async function generateDailyBlogContent() {
                 .join('');
         }
 
-        // 3. Generate Image using Pollinations AI
-        // Use the specfic image_prompt from Gemini if available, otherwise fallback to title
-        const visualDescription = aiPost.image_prompt || `${aiPost.title}, beauty magazine style, high fashion`;
+        // 3. Image Generation Strategy (Production Ready)
+        // We use Unsplash for reliable, high-quality, and persistent images.
+        // This avoids API key requirements, rate limits, and ephemeral file system issues.
 
-        // Negative prompt to reduce anatomical errors (Hands, fingers, etc.)
-        const negativePrompt = "(bad anatomy, extra fingers, deformed hands, distorted, disfigured, mutated, ugly, blurry, low quality, bad eyes, crossed eyes, asymmetric eyes, poorly drawn face, mutated face, bad mouth, bad teeth:1.5)";
-        const finalPrompt = `${visualDescription}, 4k, photorealistic, cinematic lighting, hd, 8k, perfect anatomy, detailed hands, beautiful face, symmetrical eyes ${negativePrompt}`;
+        let imageUrl = '';
+        const imageKeyword = aiPost.image_keyword || 'beauty';
 
-        const imagePrompt = encodeURIComponent(finalPrompt);
-        const imageUrl = `https://image.pollinations.ai/prompt/${imagePrompt}?width=1280&height=720&nologo=true&enhance=true&model=flux&seed=${Math.floor(Math.random() * 99999)}`;
+        // Dynamic Unsplash Selection based on keyword
+        const unsplashMap = {
+            'skincare': 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1280&q=80',
+            'makeup': 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1280&q=80',
+            'business': 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1280&q=80',
+            'nature': 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1280&q=80',
+            'perfume': 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1280&q=80',
+            'wellness': 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1280&q=80',
+            'hair': 'https://images.unsplash.com/photo-1560869713-7d0a29430803?auto=format&fit=crop&w=1280&q=80'
+        };
 
+        if (unsplashMap[imageKeyword]) {
+            imageUrl = unsplashMap[imageKeyword];
+        } else {
+            // Fallback for generic or unknown keywords
+            imageUrl = `https://images.unsplash.com/photo-1596462502278-27bfdd403348?q=80&w=1280&auto=format&fit=crop`;
+        }
+
+        console.log("Assigned Production Image URL:", imageUrl);
         aiPost.generated_image_url = imageUrl;
 
         return aiPost;

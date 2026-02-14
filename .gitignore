@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# temp artifacts
+*.html
+*.html.json
+next_data.json
+catalogues-bundle.js
+chunk-*.js
+test-catalogs.json
+

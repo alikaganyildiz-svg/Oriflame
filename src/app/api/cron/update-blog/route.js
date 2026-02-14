@@ -1,5 +1,6 @@
 import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
+import { generateAndSaveNewPost } from '@/services/blog-service';
 
 export async function GET(request) {
     // Güvenlik: Sadece Vercel Cron'dan gelen istekleri kabul et (Opsiyonel ama önerilir)
@@ -11,16 +12,24 @@ export async function GET(request) {
     try {
         console.log("Cron started: Refreshing blog content...");
 
-        // 1. Cache'i temizle (revalidate)
-        revalidatePath('/blog');
-        console.log("Cache pruned using revalidatePath('/blog')");
+        // 1. Yeni içerik oluştur ve kaydet
+        console.log("Generating new blog post...");
+        const newPost = await generateAndSaveNewPost();
 
-        // 2. Sayfayı 'Warm-up' yap (Ziyaret et ki yeniden oluşsun)
-        // Kendi domainimize istek atıyoruz.
+        if (newPost.error) {
+            console.error("Failed to generate post:", newPost.error);
+            return NextResponse.json({ error: newPost.error }, { status: 500 });
+        }
+
+        // 2. Cache'i temizle (revalidate) - Sayfanın yeni içeriği göstermesi için
+        revalidatePath('/blog');
+        console.log("Cache pruned using revalidatePath('/blog') after new post generation.");
+
+        // 3. Sayfayı 'Warm-up' yap (Opsiyonel ama iyi olur)
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || `https://${process.env.VERCEL_URL}` || 'http://localhost:3000';
         const blogUrl = `${baseUrl}/blog`;
 
-        console.log(`Fetching blog page to trigger generation: ${blogUrl}`);
+        console.log(`Fetching blog page to warm cache: ${blogUrl}`);
         const res = await fetch(blogUrl);
 
         if (res.ok) {

@@ -79,17 +79,35 @@ export async function generateDailyBlogContent() {
 
         if (!rawText) return { error: "Gemini returned empty content." };
 
-        // Clean JSON formatting (Markdown fences)
-        rawText = rawText
-            .replace(/^```json\s*/, '') // Remove start fence
-            .replace(/^```\s*/, '')      // Remove generic start fence
-            .replace(/```$/, '')         // Remove end fence
-            .trim(); // Remove whitespace
+        // Clean JSON formatting (Markdown fences and potential noise)
+        rawText = rawText.trim();
 
-        const jsonMatch = rawText.match(/\{[\s\S]*\}/); // Try to find JSON object if mixed with text
-        if (jsonMatch) rawText = jsonMatch[0];
+        // 1. Try to find the first '{' and the last '}' to isolate the JSON object
+        const firstOpenBrace = rawText.indexOf('{');
+        const lastCloseBrace = rawText.lastIndexOf('}');
 
-        const aiPost = JSON.parse(rawText);
+        if (firstOpenBrace !== -1 && lastCloseBrace !== -1 && lastCloseBrace > firstOpenBrace) {
+            rawText = rawText.substring(firstOpenBrace, lastCloseBrace + 1);
+        } else {
+            return { error: "Could not find valid JSON object in Gemini response." };
+        }
+
+        let aiPost;
+        try {
+            aiPost = JSON.parse(rawText);
+        } catch (parseError) {
+            console.error("JSON Parse Error:", parseError);
+            console.error("Raw Text causing error:", rawText);
+            // Attempt to sanitize common issues like trailing commas or newlines strings in JSON
+            // This is a desperate attempt fallback
+            try {
+                // Remove trailing commas before closing braces/brackets
+                const sanitizedText = rawText.replace(/,\s*([\]}])/g, '$1');
+                aiPost = JSON.parse(sanitizedText);
+            } catch (retryError) {
+                return { error: `JSON Parse Failed: ${parseError.message}` };
+            }
+        }
 
         // FALLBACK: If AI returned plain text (no HTML tags), force wrap in paragraphs
         if (aiPost.content && !aiPost.content.includes('<p>') && !aiPost.content.includes('<h2>')) {

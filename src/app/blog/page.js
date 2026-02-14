@@ -1,11 +1,11 @@
 
 import React from 'react';
 import { BookOpen, Archive } from 'lucide-react';
-import { generateAndSaveNewPost } from '@/services/blog-service';
+import { getLatestPost } from '@/services/blog-service';
 import Link from 'next/link';
 
 // Revalidate every hour
-export const revalidate = 0; // Disable cache for testing
+export const revalidate = 3600;
 
 const topicImages = {
     'skincare': 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=2000',
@@ -28,8 +28,8 @@ const getImage = (keyword, aiUrl) => {
 };
 
 export default async function BlogPage() {
-    // TEMPORARY: Force generate new post on every page load for testing
-    const aiPost = await generateAndSaveNewPost(true);
+    // Get post from service (handles checking if today's post exists)
+    const aiPost = await getLatestPost();
 
     if (!aiPost || aiPost.error) {
         return (

@@ -3,7 +3,7 @@ import { createClient } from 'redis';
 
 // Initialize Redis client
 const client = createClient({
-    url: process.env.KV_URL || process.env.REDIS_URL
+    url: process.env.KV_URL || process.env.REDIS_URL || process.env.STORAGE_URL
 });
 
 client.on('error', (err) => console.error('Redis Client Error', err));

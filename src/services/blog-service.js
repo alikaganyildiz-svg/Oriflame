@@ -22,7 +22,10 @@ const getPosts = async () => {
     try {
         await connectRedis();
         const data = await client.get(REDIS_KEY);
-        return data ? JSON.parse(data) : [];
+        console.log(`[Redis] Reading posts. Key: ${REDIS_KEY}. Data exists: ${!!data}, Length: ${data ? data.length : 0}`);
+        const parsed = data ? JSON.parse(data) : [];
+        console.log(`[Redis] Parsed ${parsed.length} posts.`);
+        return parsed;
     } catch (error) {
         console.error("Error reading blog posts from Redis:", error);
         return [];
@@ -32,8 +35,10 @@ const getPosts = async () => {
 // Helper to save posts to Redis
 const savePosts = async (posts) => {
     try {
+        console.log(`[Redis] Saving ${posts.length} posts to Key: ${REDIS_KEY}`);
         await connectRedis();
         await client.set(REDIS_KEY, JSON.stringify(posts));
+        console.log("[Redis] Save successful.");
     } catch (error) {
         console.error("Error saving blog posts to Redis:", error);
     }

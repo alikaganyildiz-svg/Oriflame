@@ -2,7 +2,7 @@
     "crons": [
         {
             "path": "/api/cron/update-blog",
-            "schedule": "52 8 * * *"
+            "schedule": "5 9 * * *"
         }
     ]
 }

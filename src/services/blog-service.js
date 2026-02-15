@@ -87,21 +87,22 @@ export async function generateAndSaveNewPost(forceTestMode = false) {
     const posts = await getPosts();
     const today = new Date().toISOString().split('T')[0];
 
-    // Check if we already have a post for today to prevent duplicates (UNLESS IN TEST MODE)
-    if (!forceTestMode) {
-        const existingToday = posts.find(post => post.date === today);
-        if (existingToday) {
-            console.log("Post for today already exists. Skipping save.");
-            return existingToday;
-        }
+    // User requested to ALWAYS generate a new post when triggered, regardless of existing content.
+    // So we removed the 'existingToday' check here.
+
+    let slug = createSlug(newPostData.title);
+
+    // Ensure slug uniqueness
+    let isSlugUnique = !posts.some(p => p.slug === slug);
+    if (!isSlugUnique || forceTestMode) {
+        slug = `${slug}-${Date.now()}`;
     }
 
     const newPost = {
         ...newPostData,
         id: Date.now().toString(),
         date: today,
-        // If testing, append timestamp to title to make it unique in UI logs if needed
-        slug: createSlug(newPostData.title) + (forceTestMode ? `-${Date.now()}` : ''),
+        slug: slug,
         timestamp: new Date().toISOString()
     };
 

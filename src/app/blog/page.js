@@ -34,8 +34,10 @@ export default async function BlogPage() {
     if (!aiPost || aiPost.error) {
         return (
             <div className="pt-20 min-h-screen bg-gray-50 text-center px-4 flex flex-col items-center justify-center">
-                <h1 className="text-3xl font-bold text-gray-800">İçerik Yüklenemedi</h1>
-                <p className="text-gray-600 mt-2 mb-4">Lütfen daha sonra tekrar deneyiniz.</p>
+                <h1 className="text-3xl font-bold text-gray-800">Henüz İçerik Yok</h1>
+                <p className="text-gray-600 mt-2 mb-4">
+                    {aiPost?.error ? 'Bir hata oluştu.' : 'Günlük bülten henüz oluşturulmadı.'}
+                </p>
                 {aiPost?.error && (
                     <div className="p-4 bg-red-50 border border-red-200 rounded-lg max-w-lg mx-auto text-left">
                         <p className="text-red-700 font-mono text-sm break-all">

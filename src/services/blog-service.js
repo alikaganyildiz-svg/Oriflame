@@ -64,16 +64,15 @@ import { generateDailyBlogContent } from './ai.js';
 export async function getLatestPost() {
     const posts = await getPosts();
 
-    // Just return the first post if it exists
+    // Return the latest post if exists
     if (posts.length > 0) {
         return posts[0];
     }
 
-    // Return null if no posts (Frontend handles this gracefully or we can trigger init)
-    // For now, let's trigger one if completely empty so the site isn't broken on first deploy
-    console.log("No posts found in Redis. Generating initial post...");
-    const initialPost = await generateAndSaveNewPost();
-    return initialPost;
+    // Return null if no posts found.
+    // Ideally, the frontend should handle this state (e.g. "No posts yet")
+    // or we can return a placeholder. For now, returning null.
+    return null;
 }
 
 export async function generateAndSaveNewPost(forceTestMode = false) {

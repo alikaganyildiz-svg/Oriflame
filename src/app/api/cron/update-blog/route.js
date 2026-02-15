@@ -2,6 +2,9 @@ import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { generateAndSaveNewPost } from '@/services/blog-service';
 
+export const maxDuration = 60; // Increase timeout to 60 seconds
+export const dynamic = 'force-dynamic';
+
 export async function GET(request) {
     // Güvenlik: Sadece Vercel Cron'dan gelen istekleri kabul et (Opsiyonel ama önerilir)
     // const authHeader = request.headers.get('authorization');

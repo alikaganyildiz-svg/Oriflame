@@ -43,7 +43,15 @@ export async function generateDailyBlogContent() {
         -   Alt başlıklar için <h3> kullan.
         -   İlham verici bir sözü <blockquote> içine al.
         -   Önerilerini <ul> ve <li> etiketleri ile listele.
+        -   Önerilerini <ul> ve <li> etiketleri ile listele.
         -   Asla düz metin kullanma, her şey HTML etiketi içinde olmalı.
+
+    4.  **SEO Optimize:** Yazının akışını bozmadan, şu anahtar kelimelerden EN AZ 3 TANESİNİ doğal bir şekilde cümle içinde geçir:
+        -   "Oriflame Üyelik"
+        -   "Sermayesiz İş"
+        -   "Oriflame Katalog"
+        -   "Ek Gelir"
+        -   "Güzellik Danışmanı"
     
     Beklenen JSON Yapısı:
     {

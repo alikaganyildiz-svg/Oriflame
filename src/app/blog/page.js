@@ -4,8 +4,8 @@ import { BookOpen, Archive } from 'lucide-react';
 import { getLatestPost } from '@/services/blog-service';
 import Link from 'next/link';
 
-// Revalidate every hour
-export const revalidate = 3600;
+// Revalidate immediately - dynamic behavior
+export const revalidate = 0;
 
 const topicImages = {
     'skincare': 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=2000',

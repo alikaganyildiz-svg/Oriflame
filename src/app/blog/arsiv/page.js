@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { getAllPosts } from '@/services/blog-service';
 import { ArrowLeft, Calendar, BookOpen } from 'lucide-react';
 
-export const revalidate = 3600;
+export const revalidate = 0;
 
 const topicImages = {
     'skincare': 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=2000',

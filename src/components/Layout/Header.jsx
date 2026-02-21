@@ -17,7 +17,7 @@ const Header = () => {
         <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">
             {/* Top Bar removed for cleaner look or kept minimal */}
             <div className="bg-primary text-white text-xs py-2 text-center font-medium tracking-wide">
-                ORIFLAME İLE HAYALLERİNE KAPI ARALA - ÜCRETSİZ KAYIT
+                ORIFLAME İLE HAYALLERİNE KAPI ARALA - ÜCRETSİZ KAYIT deneme
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

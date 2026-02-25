@@ -9,8 +9,15 @@ export default async function sitemap() {
     const blogUrls = posts.map((post) => ({
         url: `${baseUrl}/blog/${post.slug}`,
         lastModified: new Date(post.date),
-        changeFrequency: 'weekly',
+        changeFrequency: 'daily',
         priority: 0.8,
+    }));
+
+    const arsivUrls = posts.map((post) => ({
+        url: `${baseUrl}/arsiv/${post.slug}`,
+        lastModified: new Date(post.date),
+        changeFrequency: 'daily',
+        priority: 0.7,
     }));
 
     return [
@@ -33,5 +40,6 @@ export default async function sitemap() {
             priority: 0.8,
         },
         ...blogUrls,
+        ...arsivUrls,
     ];
 }

@@ -17,16 +17,16 @@ const Catalog = () => {
             id: 1,
             title: "Mevcut Ay Kataloğu",
             description: "En yeni ürünler, harika indirimler ve sezona özel fırsatları keşfedin.",
-            baseUrl: "https://b-cdn.ipaper.io/iPaper/Papers/a1cbc8ea-c986-4ff5-bc02-8e456f48f383",
-            signature: "?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZG4uaXBhcGVyLmlvL2lQYXBlci9QYXBlcnMvYTFjYmM4ZWEtYzk4Ni00ZmY1LWJjMDItOGU0NTZmNDhmMzgzL1BhZ2VzLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3NzExNjE1NDh9fX1dfQ__&Signature=eD5g5B8uJxXMAZzOXqSbBKX~x3Ntppg8p9Jqv8-j6GZP2z7Uf6c4W-EG4CakmKYwKV7AVJr7iWoyOiZx2qnuwJQNxIduALj8zRGWuyLH1gFIvuFxjECrH1b6zXfhPQ4eo4Zmz30n3tfNLAKhIlox9K0dUiyQ6kJvkY2aPehwUik_&Key-Pair-Id=APKAIPGQN6BDBMBZ2LCA",
+            baseUrl: "https://b-cdn.ipaper.io/iPaper/Papers/c6d86955-35a4-436e-8531-28edd38adf85",
+            signature: "?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZG4uaXBhcGVyLmlvL2lQYXBlci9QYXBlcnMvYzZkODY5NTUtMzVhNC00MzZlLTg1MzEtMjhlZGQzOGFkZjg1L1BhZ2VzLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3NzI3NTI3MzF9fX1dfQ__&Signature=P2ti~hq8IfjODgqgWFzS3rpt2VFhR67EnV6fNnkoO6n9DmERwcVu~FgxSMzgTibNQf7Xj06VpwZAYdvYOuFgJqSnoMQJbai0ZaPHO44WjJ0abcl0LrIn~CpoZTQyakoeGm333tJ6aIVDpXVR70VnZeBiomAEcTIpLi3ylZ7TOak_&Key-Pair-Id=APKAIPGQN6BDBMBZ2LCA",
             badge: "Yayında"
         },
         {
             id: 2,
             title: "Gelecek Ay Kataloğu",
             description: "Önümüzdeki ayın fırsatlarını şimdiden inceleyin ve siparişlerinizi planlayın.",
-            baseUrl: "https://b-cdn.ipaper.io/iPaper/Papers/6713ece0-d8a6-4c02-867a-1c6837849460",
-            signature: "?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZG4uaXBhcGVyLmlvL2lQYXBlci9QYXBlcnMvNjcxM2VjZTAtZDhhNi00YzAyLTg2N2EtMWM2ODM3ODQ5NDYwL1BhZ2VzLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3NzExNjIzMDl9fX1dfQ__&Signature=dTkxX0PN6jAzkYL5qQjCcjE7jxNw4DWAityB~u-0BrYuXdwFY5imETguwdaRO76ee~5TODDmU3uiW3EnXN1eTuy03sVZJy0hItY5LM9CTfrMG2a5~u6a1-nnioEHf4yJNj-inaLq-g8iWCRKzT4rLrI9fuU9gAtM5GN2~yL8SFQ_&Key-Pair-Id=APKAIPGQN6BDBMBZ2LCA",
+            baseUrl: "https://b-cdn.ipaper.io/iPaper/Papers/c734010e-97fb-419d-bb08-14219487dd72",
+            signature: "?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZG4uaXBhcGVyLmlvL2lQYXBlci9QYXBlcnMvYzczNDAxMGUtOTdmYi00MTlkLWJiMDgtMTQyMTk0ODdkZDcyL1BhZ2VzLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3NzI3NTMwOTJ9fX1dfQ__&Signature=W~P0uafnegPmZl6zxeGq3AoahjufL-Vy12KGVl1fdWOn6t1jIjyMFt5lXXGh0fx1xX6i3gv8a8s8PXZ3UbdBQV3dy1RZowDi9tHJypNputoJwqV4lXs4QAKYspH5KszrIRblF~1pMTu3V-uJ2oVskCyUzMU2pevzKHDZ22Z~1TQ_&Key-Pair-Id=APKAIPGQN6BDBMBZ2LCA",
             badge: "Yakında"
         }
     ];

@@ -1,0 +1,41 @@
+name: Auto Update Oriflame Catalogs
+
+on:
+  schedule:
+    # Pazartesi günleri saat 03:00'te çalışır (UTC saatiyle)
+    - cron: "0 3 * * 1"
+  workflow_dispatch: # GitHub arayüzünden manuel tetiklemeye izin verir
+
+jobs:
+  update-catalogs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git Repository'yi İndir (Checkout)
+        uses: actions/checkout@v4
+
+      - name: Node.js Kurulumu
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Gerekli Paketleri Yükle
+        run: npm ci || npm install puppeteer-core @sparticuz/chromium
+
+      - name: Katalog Güncelleyici Botu Çalıştır
+        run: node scripts/update-catalogs.js
+
+      - name: Değişiklikleri Kontrol Et ve GitHub'a Gönder
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/app/katalog/page.js
+
+          # Eğer değişiklik varsa commit ve push yap
+          if git diff --staged --quiet; then
+            echo "Kataloglar zaten güncel, değişiklik yok."
+          else
+            git commit -m "chore: Katalog linkleri otomatik güncellendi (Bot)"
+            git push
+            echo "Değişiklikler GitHub'a gönderildi. Vercel deployment'ı tetiklenecek."
+          fi

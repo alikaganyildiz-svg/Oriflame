@@ -1,56 +1,21 @@
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
-
-// Vercel / GitHub Actions environment compatibility for Puppeteer
-const getExecutablePath = async () => {
-    try {
-        const chromium = require('@sparticuz/chromium');
-        return await chromium.executablePath();
-    } catch (error) {
-        // If not in a serverless environment with sparticuz, try to find local Chrome
-        // This makes it easy to test locally as well
-        const { execSync } = require('child_process');
-        try {
-            if (process.platform === 'win32') {
-                const paths = [
-                    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-                    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
-                    'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe'
-                ];
-                for (const p of paths) {
-                    if (fs.existsSync(p)) return p;
-                }
-            } else if (process.platform === 'linux') {
-                return execSync('which google-chrome').toString().trim() || execSync('which chromium-browser').toString().trim();
-            } else if (process.platform === 'darwin') {
-                return '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-            }
-        } catch (e) {
-            console.warn('Could not automatically determine Chrome path for local testing.');
-        }
-        return null; // Let puppeteer try its default
-    }
-};
 
 async function updateCatalogs() {
     console.log('Oriflame Katalog Güncelleyici Botu Başlatılıyor...');
 
-    const executablePath = await getExecutablePath();
-    console.log(`Tarayıcı yolu: ${executablePath || 'Varsayılan Puppeteer Chromium'}`);
-
+    // Puppeteer'ın standart Chromium sürümünü kullanarak başlat
     const browser = await puppeteer.launch({
+        headless: "new", // Yeni ve optimize edilmiş arka plan modu
         args: [
-            ...require('@sparticuz/chromium').args,
             '--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
             '--disable-accelerated-2d-canvas',
-            '--disable-gpu'
-        ],
-        defaultViewport: require('@sparticuz/chromium').defaultViewport,
-        executablePath: executablePath || await require('@sparticuz/chromium').executablePath(),
-        headless: true, // Her zaman arkaplanda görünmez çalışsın
+            '--disable-gpu',
+            '--disable-popup-blocking' // Pop-up engelliyicisi kapalı olsun!
+        ]
     });
 
     const page = await browser.newPage();
@@ -61,10 +26,8 @@ async function updateCatalogs() {
         nextCatalog: { baseUrl: '', signature: '', coverUrl: '' }
     };
 
-    let requestCount = 0;
-
-    // Ağa düşen istekleri (XHR/Fetch/Image) filtreliyoruz
-    page.on('request', request => {
+    // İstekleri dinleyen genel fonksiyon (Hem ana sayfa, hem açılan yeni sekmeler için)
+    const interceptRequest = (request) => {
         const url = request.url();
 
         // 1. iPaper Zoom Bağlantılarını Yakala (Katalog Sayfaları İçin)
@@ -91,17 +54,26 @@ async function updateCatalogs() {
                 extractedData.currentCatalog.coverUrl = url;
                 console.log('✅ Mevcut Ay Kapak görseli bulundu.');
             } else if (extractedData.currentCatalog.coverUrl !== url && url.includes('2026') && !extractedData.nextCatalog.coverUrl) {
-                // Not: 2026 vs dinamik değil ama genel bir farklı URL ayrımı için
                 extractedData.nextCatalog.coverUrl = url;
                 console.log('✅ Gelecek Ay Kapak görseli bulundu.');
             }
         }
+    };
 
-        request.continue();
+    // Ana sayfa ağ istekleri
+    page.on('request', interceptRequest);
+
+    // Açılan yeni sekmeler (Pop-ups / iFrames / Target) istekleri
+    browser.on('targetcreated', async (target) => {
+        if (target.type() === 'page') {
+            const newPage = await target.page();
+            if (newPage) {
+                newPage.on('request', interceptRequest);
+            }
+        }
     });
 
     try {
-        await page.setRequestInterception(true);
         console.log('Oriflame Mağaza sayfasına gidiliyor...');
         await page.goto('https://tr.oriflame.com/catalogues?store=TR-kagan2532287006', {
             waitUntil: 'networkidle2',
@@ -122,22 +94,57 @@ async function updateCatalogs() {
         }
 
         console.log('Katalogların bulunduğu iframe veya dinamik elementler kontrol ediliyor...');
-        // Sitede katalogları yükleyen elementleri tetiklemek için ana kapağa bir tık simüle edelim
-        await page.evaluate(() => {
-            const catalogImages = document.querySelectorAll('img[src*="Image.ashx"]');
-            if (catalogImages.length > 0) catalogImages[0].click();
-        });
+
+        // Yardımcı Fonksiyon: 'Görüntüle' butonu ortasına gerçek fare ile tıkla
+        async function clickElementByMouse(index) {
+            const elementInfo = await page.evaluate((idx) => {
+                const buttons = Array.from(document.querySelectorAll('div')).filter(el => el.textContent.trim() === 'Görüntüle');
+                if (buttons.length > idx) {
+                    const rect = buttons[idx].getBoundingClientRect();
+                    return {
+                        x: rect.x + (rect.width / 2),
+                        y: rect.y + (rect.height / 2),
+                        found: true
+                    };
+                }
+                return { found: false };
+            }, index);
+
+            if (elementInfo.found) {
+                // Fareyi o noktaya götür ve tıkla (İnsan simülasyonu)
+                await page.mouse.move(elementInfo.x, elementInfo.y, { steps: 10 });
+                await new Promise(r => setTimeout(r, 500)); // Üzerinde yarım saniye bekle
+                await page.mouse.down();
+                await new Promise(r => setTimeout(r, 100));
+                await page.mouse.up();
+                return true;
+            }
+            return false;
+        }
+
+        // 1. Mevcut ay kataloğuna tıkla
+        console.log('1. Kataloğa (Mevcut Ay) tıklanıyor...');
+        await clickElementByMouse(0);
 
         // Linklerin ağa düşmesi için biraz bekle
-        console.log('Ağ isteklerinin yakalanması için 10 saniye bekleniyor...');
-        await new Promise(r => setTimeout(r, 10000));
+        console.log('Ağ isteklerinin yakalanması için 15 saniye bekleniyor...');
+        await new Promise(r => setTimeout(r, 15000));
 
-        // Eğer ikinci kapak varsa ona da tıklayalım ki onun linkleri de gelsin
-        await page.evaluate(() => {
-            const catalogImages = document.querySelectorAll('img[src*="Image.ashx"]');
-            if (catalogImages.length > 1) catalogImages[1].click();
-        });
-        await new Promise(r => setTimeout(r, 5000));
+        // Açık sekmeleri (Mevcut ay okuyucu sekmesi) kapat (Tarayıcıyı yormamak ve odak kaybetmemek için)
+        let pages = await browser.pages();
+        for (let i = pages.length - 1; i > 0; i--) {
+            if (pages[i] !== page) await pages[i].close();
+        }
+
+        // Ana sayfayı tekrar öne al
+        await page.bringToFront();
+        await new Promise(r => setTimeout(r, 2000));
+
+        // 2. Gelecek ay kataloğuna tıkla
+        console.log('2. Kataloğa (Gelecek Ay) tıklanıyor...');
+        await clickElementByMouse(1);
+
+        await new Promise(r => setTimeout(r, 15000));
 
     } catch (error) {
         console.error('Kazıma sırasında hata oluştu:', error);
@@ -152,7 +159,7 @@ async function updateCatalogs() {
 
     if (!extractedData.currentCatalog.baseUrl || !extractedData.currentCatalog.coverUrl) {
         console.error('❌ Yeterli veri bulunamadı. Page.js güncellenmiyor.');
-        process.exit(1); // Error code for GitHub Actions to report failure
+        process.exit(1);
     }
 
     // Şimdi page.js dosyasını güncelleyelim

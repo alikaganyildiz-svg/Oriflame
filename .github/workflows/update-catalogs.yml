@@ -20,7 +20,7 @@ jobs:
           node-version: "20"
 
       - name: Gerekli Paketleri Yükle
-        run: npm ci || npm install puppeteer-core @sparticuz/chromium
+        run: npm ci || npm install puppeteer
 
       - name: Katalog Güncelleyici Botu Çalıştır
         run: node scripts/update-catalogs.js

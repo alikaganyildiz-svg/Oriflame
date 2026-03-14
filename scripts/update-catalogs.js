@@ -40,20 +40,23 @@ async function updateCatalogs() {
             if (!extractedData.currentCatalog.baseUrl) {
                 extractedData.currentCatalog.baseUrl = baseUrl;
                 extractedData.currentCatalog.signature = signature;
-                console.log('✅ Mevcut Ay Kataloğu iPaper linki bulundu.');
+                console.log('✅ Mevcut Ay Kataloğu iPaper linki bulundu:', baseUrl);
             } else if (extractedData.currentCatalog.baseUrl !== baseUrl && !extractedData.nextCatalog.baseUrl) {
                 extractedData.nextCatalog.baseUrl = baseUrl;
                 extractedData.nextCatalog.signature = signature;
-                console.log('✅ Gelecek Ay Kataloğu iPaper linki bulundu.');
+                console.log('✅ Gelecek Ay Kataloğu iPaper linki bulundu:', baseUrl);
+            } else {
+                console.log('ℹ️ iPaper linki zaten kayıtlı veya kopya:', baseUrl);
             }
         }
 
         // 2. Katalog Kapak Görsellerinin Bağlantılarını Yakala (Image.ashx)
         if (url.includes('tr-catalogue.oriflame.com/') && url.includes('Image.ashx') && url.includes('PageNumber=1')) {
+            console.log('🔍 Image.ashx yakalandı:', url);
             if (!extractedData.currentCatalog.coverUrl) {
                 extractedData.currentCatalog.coverUrl = url;
                 console.log('✅ Mevcut Ay Kapak görseli bulundu.');
-            } else if (extractedData.currentCatalog.coverUrl !== url && url.includes('2026') && !extractedData.nextCatalog.coverUrl) {
+            } else if (extractedData.currentCatalog.coverUrl !== url && !extractedData.nextCatalog.coverUrl) {
                 extractedData.nextCatalog.coverUrl = url;
                 console.log('✅ Gelecek Ay Kapak görseli bulundu.');
             }
@@ -98,22 +101,28 @@ async function updateCatalogs() {
         // Yardımcı Fonksiyon: 'Görüntüle' butonu ortasına gerçek fare ile tıkla
         async function clickElementByMouse(index) {
             const elementInfo = await page.evaluate((idx) => {
-                const buttons = Array.from(document.querySelectorAll('div')).filter(el => el.textContent.trim() === 'Görüntüle');
-                if (buttons.length > idx) {
-                    const rect = buttons[idx].getBoundingClientRect();
+                const elements = Array.from(document.querySelectorAll('div, button, a'))
+                    .filter(el => {
+                        const text = el.textContent.trim();
+                        return text === 'Görüntüle' || text === 'VIEW';
+                    });
+                
+                if (elements.length > idx) {
+                    const rect = elements[idx].getBoundingClientRect();
                     return {
                         x: rect.x + (rect.width / 2),
                         y: rect.y + (rect.height / 2),
-                        found: true
+                        found: true,
+                        count: elements.length
                     };
                 }
-                return { found: false };
+                return { found: false, count: elements.length };
             }, index);
 
             if (elementInfo.found) {
-                // Fareyi o noktaya götür ve tıkla (İnsan simülasyonu)
+                console.log(`Buton bulundu (Sıra: ${index + 1}/${elementInfo.count}), tıklanıyor...`);
                 await page.mouse.move(elementInfo.x, elementInfo.y, { steps: 10 });
-                await new Promise(r => setTimeout(r, 500)); // Üzerinde yarım saniye bekle
+                await new Promise(r => setTimeout(r, 500));
                 await page.mouse.down();
                 await new Promise(r => setTimeout(r, 100));
                 await page.mouse.up();
@@ -122,29 +131,37 @@ async function updateCatalogs() {
             return false;
         }
 
-        // 1. Mevcut ay kataloğuna tıkla
-        console.log('1. Kataloğa (Mevcut Ay) tıklanıyor...');
-        await clickElementByMouse(0);
-
-        // Linklerin ağa düşmesi için biraz bekle
-        console.log('Ağ isteklerinin yakalanması için 15 saniye bekleniyor...');
-        await new Promise(r => setTimeout(r, 15000));
-
-        // Açık sekmeleri (Mevcut ay okuyucu sekmesi) kapat (Tarayıcıyı yormamak ve odak kaybetmemek için)
-        let pages = await browser.pages();
-        for (let i = pages.length - 1; i > 0; i--) {
-            if (pages[i] !== page) await pages[i].close();
+        // Katalogları toplamak için bir döngü kuruyoruz
+        console.log('Katalogları toplamak için butonlar tek tek kontrol ediliyor...');
+        
+        const buttonIndicesToTry = [0, 1, 2, 3, 4, 5, 6]; 
+        
+        for (const idx of buttonIndicesToTry) {
+            if (extractedData.currentCatalog.baseUrl && extractedData.nextCatalog.baseUrl) {
+                console.log('✅ Her iki katalog da bulundu, döngü sonlandırılıyor.');
+                break;
+            }
+            
+            console.log(`\n--- Buton indeksi ${idx} deneniyor ---`);
+            try {
+                await page.goto('https://tr.oriflame.com/catalogues?store=TR-kagan2532287006', {
+                    waitUntil: 'networkidle2',
+                    timeout: 60000
+                });
+                await new Promise(r => setTimeout(r, 5000));
+                
+                const clicked = await clickElementByMouse(idx);
+                if (clicked) {
+                    console.log(`${idx} nolu butona tıklandı, sayfa bekleniyor...`);
+                    await new Promise(r => setTimeout(r, 15000));
+                    console.log('Mevcut sayfa URL:', page.url());
+                } else {
+                    console.log(`⚠️ ${idx} nolu buton bulunamadı.`);
+                }
+            } catch (e) {
+                console.log(`⚠️ ${idx} indeksi sırasında hata:`, e.message);
+            }
         }
-
-        // Ana sayfayı tekrar öne al
-        await page.bringToFront();
-        await new Promise(r => setTimeout(r, 2000));
-
-        // 2. Gelecek ay kataloğuna tıkla
-        console.log('2. Kataloğa (Gelecek Ay) tıklanıyor...');
-        await clickElementByMouse(1);
-
-        await new Promise(r => setTimeout(r, 15000));
 
     } catch (error) {
         console.error('Kazıma sırasında hata oluştu:', error);
@@ -167,7 +184,6 @@ async function updateCatalogs() {
     const pageJsPath = path.join(__dirname, '..', 'src', 'app', 'katalog', 'page.js');
     let pageJsContent = fs.readFileSync(pageJsPath, 'utf8');
 
-    // Regex ile eski BaseUrl ve Signature ları değiştir (Sırasıyla ID 1 ve ID 2 için değişir)
     // ID 1 (Mevcut Ay)
     const regexId1BaseUrl = /id: 1,[\s\S]*?baseUrl: "([^"]+)"/;
     const regexId1Signature = /id: 1,[\s\S]*?signature: "([^"]+)"/;
@@ -178,14 +194,21 @@ async function updateCatalogs() {
     pageJsContent = pageJsContent.replace(regexId1CoverUrl, (match) => match.replace(/"[^"]+"$/, `"${extractedData.currentCatalog.coverUrl}"`));
 
     // ID 2 (Gelecek Ay) - Eğer bulunduysa
-    if (extractedData.nextCatalog.baseUrl && extractedData.nextCatalog.coverUrl) {
+    if (extractedData.nextCatalog.baseUrl && (extractedData.nextCatalog.signature || extractedData.nextCatalog.coverUrl)) {
+        console.log('ID 2 (Gelecek Ay) güncelleniyor...');
         const regexId2BaseUrl = /id: 2,[\s\S]*?baseUrl: "([^"]+)"/;
         const regexId2Signature = /id: 2,[\s\S]*?signature: "([^"]+)"/;
         const regexId2CoverUrl = /id: 2,[\s\S]*?coverUrl: "([^"]+)"/;
 
-        pageJsContent = pageJsContent.replace(regexId2BaseUrl, (match) => match.replace(/"[^"]+"$/, `"${extractedData.nextCatalog.baseUrl}"`));
-        pageJsContent = pageJsContent.replace(regexId2Signature, (match) => match.replace(/"[^"]+"$/, `"${extractedData.nextCatalog.signature}"`));
-        pageJsContent = pageJsContent.replace(regexId2CoverUrl, (match) => match.replace(/"[^"]+"$/, `"${extractedData.nextCatalog.coverUrl}"`));
+        if (extractedData.nextCatalog.baseUrl) {
+            pageJsContent = pageJsContent.replace(regexId2BaseUrl, (match) => match.replace(/"[^"]+"$/, `"${extractedData.nextCatalog.baseUrl}"`));
+        }
+        if (extractedData.nextCatalog.signature) {
+            pageJsContent = pageJsContent.replace(regexId2Signature, (match) => match.replace(/"[^"]+"$/, `"${extractedData.nextCatalog.signature}"`));
+        }
+        if (extractedData.nextCatalog.coverUrl) {
+            pageJsContent = pageJsContent.replace(regexId2CoverUrl, (match) => match.replace(/"[^"]+"$/, `"${extractedData.nextCatalog.coverUrl}"`));
+        }
     }
 
     fs.writeFileSync(pageJsPath, pageJsContent, 'utf8');
